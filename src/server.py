@@ -16,7 +16,7 @@ def api_top_image():
     article = get_article(url)
     return json.dumps({
         "authors": article.authors,
-        "html": article.html,
+        "html": article.article_html,
         "images:": list(article.images),
         "movies": article.movies,
         "publish_date": article.publish_date.strftime("%s") if article.publish_date else None,
@@ -25,7 +25,7 @@ def api_top_image():
         "topimage": article.top_image}), 200, {'Content-Type': 'application/json'}
 
 def get_article(url):
-    article = Article(url, request_timeout=20)
+    article = Article(url, request_timeout=20, keep_article_html=True)
     article.download()
     # uncomment this if 200 is desired in case of bad url
     # article.set_html(article.html if article.html else '<html></html>')
